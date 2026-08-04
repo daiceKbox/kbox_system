@@ -16,6 +16,7 @@ class GoogleSheetService
         "kbox_company"  =>  "1E9dXu3jT_nTl5XZJoVso681YJJIIzocwdDG0KcNbbW0",
         "kbox_product"  =>  "1iS4afNjUZ0oJyxDOUk_AV0oemp02ziB23eRPlTgKFhQ",
         "kbox_order"    =>  "1NHVylnmXweYPWdIy1m8Id0P7aR3f_ghgOvi-tRzgDpQ",
+        "kbox_user"     =>  "1wL0YX7zcyUUAiSNTpI2E7Fl5bVBNiGoeYkYEHPxFUyk",
     ];
 
     public function __construct()
