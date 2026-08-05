@@ -84,6 +84,11 @@
                                     name="{{ $base_name }}[custom_name]"
                                     value="{{ data_get($company_product, "custom_name") }}"
                                 >
+                                <input
+                                    type="hidden"
+                                    name="{{ $base_name }}[format]"
+                                    value="{{ data_get($company_product, "format") }}"
+                                >
                             </td>
                             <td class="companies-company_products-table-pirce">
                                 <input
