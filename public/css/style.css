@@ -1,0 +1,184 @@
+* {
+    margin: 0;
+    padding: 0;
+
+    color: unset;
+    background-color: unset;
+    font-size: unset;
+    font-style: unset;
+    font-weight: unset;
+    text-decoration: unset;
+
+    font-family: "Zen Maru Gothic", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+ul, menu {
+    list-style: none;
+}
+
+table {
+    border-collapse: collapse;
+}
+th {
+    font-weight: bold;
+    text-align: center;
+}
+th,td {
+    padding: 2px 5px;
+}
+
+dt {
+    font-weight: bold;
+    text-align: center;
+}
+
+input, select, textarea {
+    border: 1px solid #000000;
+}
+
+textarea {
+    resize: none;
+    width: 300px;
+    height: 150px;
+}
+textarea.textarea-small {
+    width: 200px;
+    height: 50px;
+}
+
+button, input[type=submit] {
+    padding: 1px 5px;
+    margin: 2px;
+    border-width: 1px;
+    border-style: outset;
+    border-radius: 5px;
+    border-color: #000000;
+    cursor: pointer;
+}
+
+section {
+    margin: 10px auto;
+    width: auto;
+    max-width: 1080px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+div#to-the-top {
+    position:fixed;
+    display: block;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    right: 50px;
+    bottom: 25px;
+    border-radius: 100%;
+    color: #FFFFFF;
+    background-color: rgba(0,0,0,0.5);
+    cursor: pointer;
+}
+
+/*  size */
+    h1 {
+        font-size: 24px;
+    }
+    h2 {
+        font-size: 22px;
+    }
+    h3 {
+        font-size: 20px;
+    }
+    h4 {
+        font-size: 19px;
+    }
+    h5 {
+        font-size: 18px;
+    }
+    h6 {
+        font-size: 16px;
+    }
+    p,span,button,input,textarea,li,th,td,dt,dd {
+        font-size: 16px;
+    }
+
+/*  color */
+    h1 {
+        color: #FFFFFF;
+        background-color: #000000;
+    }
+    button, input, select, textarea {
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    body > header > div#header-user_portal {
+        background-color: rgba(200, 200, 200, 0.2);
+    }
+    body > header > div#header-user_portal > ul > li  a:hover {
+        background-color: rgba(255, 255, 255, 0.75);
+    }
+
+    /* .table-color */
+    /* .table-color default */
+    table.table-color > thead > tr {
+        color: rgba(255, 255, 255, 1);
+        background-color: rgba(0, 0, 0, 0.6);
+    }
+    table.table-color > thead > tr > th {
+        font-weight: unset;
+    }
+    table.table-color > tbody > tr:nth-child(even) {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+    table.table-color > tfoot > tr {
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+    table.table-color-column > * > tr > th {
+        background-color: rgba(200, 200, 255, 0.8);
+    }
+
+    table.table-color-blue > thead > tr {
+        background-color: rgba(200, 200, 255, 0.8);
+    }
+    table.table-color-blue > tbody > tr:nth-child(even) {
+        background-color: rgba(240, 240, 255, 0.8);
+    }
+    table.table-color-blue > tfoot > tr {
+        background-color: rgba(220, 220, 255, 0.8);
+    }
+    table.table-color-blue-column > * > tr > th {
+        background-color: rgba(200, 200, 255, 0.8);
+    }
+
+    table.table-color-yellow > thead > tr {
+        background-color: rgba(255, 255, 50, 0.8);
+    }
+    table.table-color-yellow > tbody > tr:nth-child(even) {
+        background-color: rgba(255, 255, 225, 0.8);
+    }
+    table.table-color-yellow > tfoot > tr {
+        background-color: rgba(255, 255, 100, 0.8);
+    }
+    table.table-color-yellow-column > * > tr > th {
+        background-color: rgba(255, 255, 200, 0.8);
+    }
+
+
+/*  design */
+    h3 {
+        margin-bottom: 5px;
+        border-bottom: 1px dotted rgba(0, 0, 0, 1);
+    }
+    h3::before {
+        content: "◆";
+    }
+    h4 {
+        margin-bottom: 5px;
+    }
+    h4::before {
+        content: "●";
+    }

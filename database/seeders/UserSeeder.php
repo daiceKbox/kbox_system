@@ -37,12 +37,14 @@ class UserSeeder extends Seeder
                 'status'            => $user['status']                      ??  'active',
             ]);
         }
+        echo "  [seed] users completed\n";
 
         $companies      =   data_get($sheet_service->get_all("kbox_company", "companies"),"data",[]);
         $user_companies =   data_get($sheet_service->get_all("kbox_user", "user_companies"),"data",[]);
         $company_keys   =   collect($companies)->keyBy(function ($company) {
             return data_get($company, "code")."_".data_get($company,"key");
         });
+        // dd($user_companies);
         $emails         =   collect($user_companies)->pluck("email")->filter()->unique();
         $users          =   User::whereIn("email", $emails,"and",false)->pluck("id","email");
 
@@ -63,5 +65,6 @@ class UserSeeder extends Seeder
                 ]);
             }
         }
+        echo "  [seed] user_companies completed\n";
     }
 }

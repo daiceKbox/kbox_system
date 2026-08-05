@@ -17,6 +17,7 @@ class GoogleSheetService
         "kbox_product"  =>  "1iS4afNjUZ0oJyxDOUk_AV0oemp02ziB23eRPlTgKFhQ",
         "kbox_order"    =>  "1NHVylnmXweYPWdIy1m8Id0P7aR3f_ghgOvi-tRzgDpQ",
         "kbox_user"     =>  "1wL0YX7zcyUUAiSNTpI2E7Fl5bVBNiGoeYkYEHPxFUyk",
+        "kbox_day"      =>  "1vcriVm-Uf9bbNWml2NjcamO0u5RXJp6S4_5h_e3se3I",
     ];
 
     public function __construct()
@@ -95,25 +96,66 @@ class GoogleSheetService
      */
     public function get_first(string $spreadsheet_key_or_id, string $range, array $conditions): ?array
     {
-        // 全データを取得
-        $response = $this->get_all($spreadsheet_key_or_id, $range);
+        // API呼び出し（get_allを通さず生の2次元配列を取得）
+            $spreadsheetId = $this->get_shpreadsheet_id($spreadsheet_key_or_id);
+            $response      = $this->service->spreadsheets_values->get($spreadsheetId, $range);
+            $raw_values    = $response->getValues() ?? [];
 
-        if ($response['status'] !== 'success' || empty($response['data'])) {
-            return null;
-        }
+            if (empty($raw_values) || count($raw_values) < 2) {
+                return null;
+            }
 
-        // Laravel Collectionに変換して絞り込み
-        return collect($response['data'])->first(function ($item) use ($conditions) {
-            foreach ($conditions as $header => $target_value) {
-                // ネストされたキー（"structure.type" や "contact.tel" など）にも対応するため data_get を利用
-                $value = data_get($item, $header);
-                // 比較（型を問わず一致するか、文字列として比較）
-                if ((string)$value !== (string)$target_value) {
-                    return false;
+        // 1行目をヘッダーとして解析
+            $raw_headers = array_shift($raw_values);
+            $headers     = [];
+            foreach ($raw_headers as $col_index => $header) {
+                $cleaned                = preg_replace('/\r\n|\r|\n/', '.', trim((string)$header));
+                $headers[$col_index]    = !empty($cleaned) ? $cleaned : 'col_' . $col_index;
+            }
+
+        // 条件のキーを列インデックス（0, 1, 2...）に変換
+            $condition_indexes = [];
+            foreach ($conditions as $key => $target_value) {
+                $col_index = array_search($key, $headers, true);
+                if ($col_index !== false) {
+                    $condition_indexes[$col_index] = (string)$target_value;
+                } else {
+                    return null;
                 }
             }
-            return true;
-        });
+        // 生の配列のまま判定（見つかった最初の1件だけを連想配列化）
+            foreach ($raw_values as $index => $row) {
+                $match = true;
+                foreach ($condition_indexes as $col_index => $target_value) {
+                    $value = $row[$col_index] ?? '';
+                    if ((string)$value !== $target_value) {
+                        $match = false;
+                        break; // 条件不一致なら即次の行へ
+                    }
+                }
+
+                if ($match) {
+                    // 一致した1件だけを連想配列化して即リターン
+                    // スプレッドシート上の絶対的な行番号（ヘッダーが1行目なのでデータは2行目から開始）
+                        $row_index = $index + 2;
+
+                    // ヘッダーと行の値をマッピングして連想配列（オブジェクト）を作成
+                    // ★ 絶対にズレないスプレッドシート上の行番号を付与
+                        $result = [
+                            "row_index" =>  $row_index,
+                        ];
+
+                        foreach ($headers as $col_index => $header) {
+                            // ヘッダー名が空の場合は列インデックス等をフォールバック
+                            $key    =   !empty($header)     ? trim($header) : 'col_' . $col_index;
+                            $value  =   $row[$col_index]    ??  null;
+                            // ★ Laravelの data_set を使うことで "structure.type" を連想配列の階層構造（['structure']['type']）に自動変換
+                            data_set($result, $key, $value);
+                        }
+                        return $result;
+                }
+            }
+            return null;
     }
 
     /**
@@ -126,27 +168,63 @@ class GoogleSheetService
      */
     public function get_where(string $spreadsheet_key_or_id, string $range, array $conditions): array
     {
-        // 全データを取得
-        $response = $this->get_all($spreadsheet_key_or_id, $range);
+        // API呼び出し
+        $spreadsheetId = $this->get_shpreadsheet_id($spreadsheet_key_or_id);
+        $response      = $this->service->spreadsheets_values->get($spreadsheetId, $range);
+        $raw_values    = $response->getValues() ?? [];
 
-        if ($response['status'] !== 'success' || empty($response['data'])) {
+        if (empty($raw_values) || count($raw_values) < 2) {
             return [];
         }
 
-        // Laravel Collectionに変換して条件に一致するものをすべてフィルタリング
-        return collect($response['data'])->filter(function ($item) use ($conditions) {
-            foreach ($conditions as $header => $target_value) {
-                // ネストされたキーにも対応
-                $value = data_get($item, $header);
-                // 比較（文字列として比較）
-                if ((string)$value !== (string)$target_value) {
-                    return false;
+        // 1行目をヘッダーとして解析・整形
+        $raw_headers = array_shift($raw_values);
+        $headers     = [];
+        foreach ($raw_headers as $col_index => $header) {
+            $cleaned             = preg_replace('/\r\n|\r|\n/', '.', trim((string)$header));
+            $headers[$col_index] = !empty($cleaned) ? $cleaned : 'col_' . $col_index;
+        }
+
+        // 条件のキーを列インデックスに変換
+        $condition_indexes = [];
+        foreach ($conditions as $key => $target_value) {
+            $col_index = array_search($key, $headers, true);
+            if ($col_index !== false) {
+                $condition_indexes[$col_index] = (string)$target_value;
+            } else {
+                // 存在しないキー指定時はヒットし得ないため即空配列を返す
+                return [];
+            }
+        }
+
+        $results = [];
+
+        // 生の配列のまま判定（一致した行だけを連想配列化）
+        foreach ($raw_values as $index => $row) {
+            $match = true;
+            foreach ($condition_indexes as $col_index => $target_value) {
+                $value = $row[$col_index] ?? '';
+                if ((string)$value !== $target_value) {
+                    $match = false;
+                    break;
                 }
             }
-            return true;
-        })->values()->all(); // インデックスを0から再振り分けして純粋な配列として返す
-    }
 
+            if ($match) {
+                $row_index = $index + 2;
+                $result    = ['row_index' => $row_index];
+
+                foreach ($headers as $col_index => $key) {
+                    $value = $row[$col_index] ?? null;
+                    data_set($result, $key, $value);
+                }
+
+                $results[] = $result;
+            }
+        }
+
+        return $results;
+    }
 
     /**
      * 生の行列データ（2次元配列）をヘッダーキーの連想配列リストに整形する

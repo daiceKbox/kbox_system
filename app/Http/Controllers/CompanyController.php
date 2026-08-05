@@ -40,21 +40,26 @@ class CompanyController extends Controller
      */
     public function show(string $code)
     {
-        $conditions_a   =   [
+        $conditions_company             =   [
             "code"      =>  $code,
         ];
-        $conditions_b   =   [
+        $conditions_company_products    =   [
             "company_code"      =>  $code,
             "status"            =>  "active",
         ];
-        $company            =   $this->sheet_service->get_first("kbox_company", "companies", $conditions_a);
-        $company_products   =   $this->sheet_service->get_where("kbox_company", "company_products", $conditions_b);
-        $data           =   [
+        $conditions_working_date        =   [
+            "date"      =>  now()->format("Y/m/d"),
+            "key"       =>  "北角紙器株式会社",
+        ];
+        $company            =   $this->sheet_service->get_first("kbox_company", "companies", $conditions_company);
+        $company_products   =   $this->sheet_service->get_where("kbox_company", "company_products", $conditions_company_products);
+        $working_date       =   $this->sheet_service->get_first("kbox_day","days", $conditions_working_date);
+        $data               =   [
             "company"           =>  $company,
             "company_products"  =>  $company_products,
+            "working_date"      =>  $working_date,
         ];
         return view("companies.show", $data);
-        return response()->json($data, 200);
     }
 
     /**

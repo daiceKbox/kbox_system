@@ -1,0 +1,728 @@
+* {
+    margin: 0;
+    padding: 0;
+
+    color: unset;
+    background-color: unset;
+    font-size: unset;
+    font-style: unset;
+    font-weight: unset;
+    text-decoration: unset;
+
+    font-family: "Zen Maru Gothic", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+ul, menu {
+    list-style: none;
+}
+
+table {
+    border-collapse: collapse;
+}
+th {
+    font-weight: bold;
+    text-align: center;
+}
+th,td {
+    padding: 2px 5px;
+}
+
+dt {
+    font-weight: bold;
+    text-align: center;
+}
+
+input, select, textarea {
+    border: 1px solid #000000;
+}
+
+textarea {
+    resize: none;
+    width: 300px;
+    height: 150px;
+}
+textarea.textarea-small {
+    width: 200px;
+    height: 50px;
+}
+
+button, input[type=submit] {
+    padding: 1px 5px;
+    margin: 2px;
+    border-width: 1px;
+    border-style: outset;
+    border-radius: 5px;
+    border-color: #000000;
+    cursor: pointer;
+}
+
+section {
+    margin: 10px auto;
+    width: auto;
+    max-width: 1080px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+div#to-the-top {
+    position:fixed;
+    display: block;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    right: 50px;
+    bottom: 25px;
+    border-radius: 100%;
+    color: #FFFFFF;
+    background-color: rgba(0,0,0,0.5);
+    cursor: pointer;
+}
+
+nav.paginate > ul {
+    display: flex;
+    justify-content: center;
+}
+nav.paginate > ul > li {
+    text-align: center;
+}
+nav.paginate > ul > li.paginate-item {
+    min-width: 40px;
+}
+nav.paginate > ul > li.paginate-page {
+    min-width: 25px;
+}
+nav.paginate > ul > li.paginate-page > span.paginate-page-current {
+    text-decoration: underline;
+}
+nav.paginate > ul > li > a {
+    width: auto;
+}
+
+
+
+/*  size */
+    h1 {
+        font-size: 24px;
+    }
+    h2 {
+        font-size: 22px;
+    }
+    h3 {
+        font-size: 20px;
+    }
+    h4 {
+        font-size: 19px;
+    }
+    h5 {
+        font-size: 18px;
+    }
+    h6 {
+        font-size: 16px;
+    }
+    p,span,button,input,textarea,li,th,td,dt,dd {
+        font-size: 16px;
+    }
+
+/*  color */
+    h1 {
+        color: #FFFFFF;
+        background-color: #000000;
+    }
+    button, input, select, textarea {
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    body > header > div#header-user_portal {
+        background-color: rgba(200, 200, 200, 0.2);
+    }
+    body > header > div#header-user_portal > ul > li  a:hover {
+        background-color: rgba(255, 255, 255, 0.75);
+    }
+
+    /* .table-color */
+    /* .table-color default */
+    table.table-color > thead > tr {
+        color: rgba(255, 255, 255, 1);
+        background-color: rgba(0, 0, 0, 0.6);
+    }
+    table.table-color > thead > tr > th {
+        font-weight: unset;
+    }
+    table.table-color > tbody > tr:nth-child(even) {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+    table.table-color > tfoot > tr {
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+    table.table-color-column > * > tr > th {
+        background-color: rgba(200, 200, 255, 0.8);
+    }
+
+    table.table-color-blue > thead > tr {
+        background-color: rgba(200, 200, 255, 0.8);
+    }
+    table.table-color-blue > tbody > tr:nth-child(even) {
+        background-color: rgba(240, 240, 255, 0.8);
+    }
+    table.table-color-blue > tfoot > tr {
+        background-color: rgba(220, 220, 255, 0.8);
+    }
+    table.table-color-blue-column > * > tr > th {
+        background-color: rgba(200, 200, 255, 0.8);
+    }
+
+    table.table-color-yellow > thead > tr {
+        background-color: rgba(255, 255, 50, 0.8);
+    }
+    table.table-color-yellow > tbody > tr:nth-child(even) {
+        background-color: rgba(255, 255, 225, 0.8);
+    }
+    table.table-color-yellow > tfoot > tr {
+        background-color: rgba(255, 255, 100, 0.8);
+    }
+    table.table-color-yellow-column > * > tr > th {
+        background-color: rgba(255, 255, 200, 0.8);
+    }
+
+
+/*  design */
+    h3 {
+        margin-bottom: 5px;
+        border-bottom: 1px dotted rgba(0, 0, 0, 1);
+    }
+    h3::before {
+        content: "◆";
+    }
+    h4 {
+        margin-bottom: 5px;
+    }
+    h4::before {
+        content: "●";
+    }
+/*  header */
+    body > header {
+        border-bottom: 2px solid rgba(0,0,0,0.5);
+    }
+    /*  H1 */
+    body > header > h1 {
+        text-align: center;
+    }
+    body > header > h1 > a {
+        display: block;
+        padding: 10px;
+    }
+    /*  user_portal */
+    body > header > div#header-user_portal {
+        display: flex;
+        justify-content: space-between;
+        width: auto;
+        padding: 0 10px;
+    }
+    body > header > div#header-user_portal > p {
+        width: auto;
+        padding: 5px 0;
+    }
+    body > header > div#header-user_portal > ul {
+        display: flex;
+        justify-content: right;
+        width: auto;
+    }
+    body > header > div#header-user_portal > ul > li {
+        text-align: center;
+        width: 100px;
+        height: 100%;
+    }
+    body > header > div#header-user_portal > ul > li > a {
+        display: flex;
+        width: auto;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+    }
+    body > header > h2,
+    body > header > menu#header-page_transition > ul {
+        padding: 5px 10px;
+    }
+    body > header > menu#header-page_transition > ul {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: left;
+    }
+    body > header > menu#header-page_transition > ul > li::after {
+        padding: 0 10px;
+        content: "\003E";
+    }
+    body > header > menu#header-page_transition > ul > li:last-child:after {
+        content: unset;
+    }
+
+/*  footer */
+    body > footer {
+        margin-top: 50px;
+    }
+        /* user_menu */
+        body > footer > div#footer-user_menu > ul {
+            width: auto;
+            display: flex;
+            justify-content: right;
+        }
+        body > footer > div#footer-user_menu > ul > li {
+            font-size: 12px;
+            text-align: center;
+            width: 80px;
+            height: 100%;
+        }
+        body > footer > div#footer-user_menu > ul > li > a {
+            display: flex;
+            width: auto;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        /* copyright */
+        body > footer > div#footer-copyright > p {
+            text-align: center;
+        }
+
+
+/*  main */
+    body > main > section {
+        max-width: 1080px;
+        padding: 10px 15px;
+    }
+    body > main > section > p,
+    body > main > section > ul,
+    body > main > section > table {
+        padding: 0 30px;
+        width: auto;
+    }
+
+    /* top-guest */
+        body > main > section#top-guest > form > table {
+            margin: 0 auto;
+        }
+        body > main > section#top-guest > form > table > tbody > tr.top-guest-form-login-remember > td,
+        body > main > section#top-guest > form > table > tfoot > tr.top-guest-form-login-submit > td,
+        body > main > section#top-guest > form > table > tfoot > tr.top-guest-form-login-forgot_password {
+            text-align: center;
+        }
+
+            @media screen and (max-width: 800px) {
+                body > main > section#top-guest > form > table > * > tr > th,
+                body > main > section#top-guest > form > table > * > tr > td {
+                    display: block;
+                }
+                body > main > section#top-guest > form > table > tbody > tr.top-guest-form-login-email > td ,
+                body > main > section#top-guest > form > table > tbody > tr.top-guest-form-login-password > td {
+                    text-align: center;
+                }
+            }
+
+
+    /* top-user */
+        body > main > section#top-user > div#top-user-cards {
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+        }
+        body > main > section#top-user > div#top-user-cards > dl {
+            margin: 0 auto;
+        }
+        body > main > section#top-user > div#top-user-cards > dl.top-user-card-info-name-full_name {
+            display: none;
+        }
+            @media screen and (max-width: 800px) {
+                body > main > section#top-user > div#top-user-cards {
+                    flex-direction: column;
+                }
+                body > main > section#top-user > div#top-user-cards > dl.top-user-card-info-name-last_name ,
+                body > main > section#top-user > div#top-user-cards > dl.top-user-card-info-name-first_name {
+                    display: none;
+                }
+                body > main > section#top-user > div#top-user-cards > dl.top-user-card-info-name-full_name {
+                    display: unset;
+                }
+                body > main > section#top-user > div#top-user-cards > dl.top-user-card-info-name-action > dt {
+                    display: none;
+                }
+            }
+
+    /* top-companies */
+        body > main > section#top-companies > p#top-companies-narrow_down {
+            text-align: center;
+            margin: 0 auto;
+        }
+        body > main > section#top-companies > div#top-companies-cards {
+            margin: 25px auto;
+            height: 50vh;
+            overflow-x: hidden;
+            overflow-y: auto;
+
+        }
+        body > main > section#top-companies > div#top-companies-cards > div > dl {
+            display: flex;
+            justify-content: center;
+        }
+        body > main > section#top-companies > div#top-companies-cards > div > dl.top-companies-card#top-companies-cards-headers {
+            text-align: center;
+            font-weight: bold;
+        }
+        body > main > section#top-companies > div#top-companies-cards > div > dl.top-companies-card > dt.top-companies-card-company_name {
+            width: 300px;
+        }
+        body > main > section#top-companies > div#top-companies-cards > div > dl.top-companies-card > dd.top-companies-card-kana {
+            width: 300px;
+        }
+        body > main > section#top-companies > div#top-companies-cards > div > dl.top-companies-card > dd.top-companies-card-branch {
+            width: 100px;
+        }
+        body > main > section#top-companies > div#top-companies-cards > div > dl.top-companies-card > dd.top-companies-card-action {
+            width: 100px;
+            text-align: center;
+        }
+            @media screen and (max-width: 800px) {
+                body > main > section#top-companies > div#top-companies-cards > div > dl {
+                    flex-direction: column;
+                    align-items: center;
+                }
+                body > main > section#top-companies > div#top-companies-cards > div > dl.top-companies-card {
+                    flex-direction: column;
+                    align-items: center;
+                    margin-bottom: 25px;
+                }
+                body > main > section#top-companies > div#top-companies-cards > div > dl.top-companies-card:last-child {
+                    margin-bottom: unset;
+                }
+                body > main > section#top-companies > div#top-companies-cards > div.div-cards-header {
+                    display: none;
+                }
+                body > main > section#top-companies > div#top-companies-cards > div > dl.top-companies-card > dd {
+                    text-align: center;
+                }
+            }
+
+
+
+
+    /* users */
+        /* users-index */
+        body > main > section#users-query > form > table ,
+        body > main > section#users-index > form > table {
+            margin: 0 auto;
+            width: fit-content;
+        }
+        body > main > section#users-query > form > table > * > tr > .users-query-name,
+        body > main > section#users-index > form > table > * > tr > .users-index-name,
+        body > main > section#users-create > form > table > * > tr > .users-create-name {
+            width: 200px;
+        }
+        body > main > section#users-query > form > table > * > tr > .users-query-email,
+        body > main > section#users-index > form > table > * > tr > .users-index-email,
+        body > main > section#users-create > form > table > * > tr > .users-create-email {
+            width: 250px;
+        }
+        body > main > section#users-query > form > table > * > tr > .users-query-name,
+        body > main > section#users-create > form > table > * > tr > .users-create-name,
+        body > main > section#users-query > form > table > * > tr > .users-query-email,
+        body > main > section#users-create > form > table > * > tr > .users-create-email {
+            text-align: center;
+        }
+        body > main > section#users-query > form > table > * > tr > .users-query-name > input,
+        body > main > section#users-create > form > table > * > tr > .users-create-name > input {
+            width: 180px;
+        }
+        body > main > section#users-query > form > table > * > tr > .users-query-email > input,
+        body > main > section#users-create > form > table > * > tr > .users-create-email > input {
+            width: 230px;
+        }
+        body > main > section#users-query > form > table > * > tr > .users-query-order_by,
+        body > main > section#users-index > form > table > * > tr > .users-index-birthday,
+        body > main > section#users-create > form > table > * > tr > .users-create-birthday {
+            width: 150px;
+            text-align: center;
+        }
+        body > main > section#users-query > form > table > * > tr > .users-query-order_by > ul > li > select,
+        body > main > section#users-create > form > table > * > tr > .users-create-birthday  > input {
+            text-align: center;
+            width: 130px;
+        }
+        body > main > section#users-query > form > table > * > tr > .users-query-role,
+        body > main > section#users-index > form > table > * > tr > .users-index-role,
+        body > main > section#users-create > form > table > * > tr > .users-create-role,
+        body > main > section#users-query > form > table > * > tr > .users-query-status,
+        body > main > section#users-index > form > table > * > tr > .users-index-status,
+        body > main > section#users-create > form > table > * > tr > .users-create-status,
+        body > main > section#users-query > form > table > * > tr > .users-query-button,
+        body > main > section#users-index > form > table > * > tr > .users-index-button,
+        body > main > section#users-create > form > table > * > tr > .users-create-button  {
+            width: 80px;
+            text-align: center;
+        }
+
+
+        body > main > section#users-query > form > table > tfoot > tr > *,
+        body > main > section#users-index > form > table > tfoot > tr > * {
+            text-align: center;
+        }
+
+
+        /* users-create */
+        body > main > section#users-create > form > table {
+            margin: 0 auto;
+        }
+        body > main > section#users-create > form > table > tbody > tr > td > input,
+        body > main > section#users-create > form > table > tbody > tr > td > ul {
+            width: 250px;
+        }
+        body > main > section#users-create > form > table > tbody > tr > td.users-create-companies {
+            display: flex;
+        }
+
+
+
+    /*  companies */
+        /*  companies-index */
+            body > main > section#companies-index > table,
+            body > main > section#companies-query   table {
+                margin: 0 auto;
+            }
+            body > main > section#companies-query   table > * > tr > td {
+                text-align: center;
+            }
+            body > main > section#companies-query   table > * > tr > td > button  {
+                min-width:  30px;
+                min-height:  30px;
+            }
+            body > main > section#companies-query   table > * > tr > td > input[name="input-narrow_down_company"]  {
+                width: calc(100% - 5px);
+            }
+
+            body > main > section#companies-index > table > * > tr > .companies-index-code {
+                width: 50px;
+                text-align: center;
+            }
+            body > main > section#companies-index > table > * > tr > .companies-index-name {
+                width: 350px;
+            }
+            body > main > section#companies-index > table > * > tr > .companies-index-kana {
+                width: 300px;
+            }
+            body > main > section#companies-index > table > * > tr > .companies-index-relationship {
+                width: 100px;
+                text-align: center;
+            }
+            body > main > section#companies-index > table > * > tr > .companies-index-button {
+                width: 50px;
+                text-align: center;
+            }
+
+        /*  companies-show */
+            /*  companies-show-address */
+                body > main > section#companies-show-address > table > thead > tr > th.companies-address-category,
+                body > main > section#companies-show-address > table > tbody > tr > td.companies-address-category {
+                    min-width: 100px;
+                }
+                body > main > section#companies-show-address > table > thead > tr > th.companies-address-zip_code,
+                body > main > section#companies-show-address > table > tbody > tr > td.companies-address-zip_code {
+                    min-width: 100px;
+                }
+                body > main > section#companies-show-address > table > thead > tr > th.companies-address-prefecture,
+                body > main > section#companies-show-address > table > tbody > tr > td.companies-address-prefecture {
+                    min-width: 75px;
+                }
+                body > main > section#companies-show-address > table > thead > tr > th.companies-address-city,
+                body > main > section#companies-show-address > table > tbody > tr > td.companies-address-city {
+                    min-width: 100px;
+                }
+                body > main > section#companies-show-address > table > thead > tr > th.companies-address-town,
+                body > main > section#companies-show-address > table > tbody > tr > td.companies-address-town {
+                    min-width: 150px;
+                }
+                body > main > section#companies-show-address > table > thead > tr > th.companies-address-description,
+                body > main > section#companies-show-address > table > tbody > tr > td.companies-address-description {
+                    min-width: 100px;
+                }
+            /*  companies-show-contact */
+                body > main > section#companies-show-contact > table > thead > tr > th.companies-contact-category,
+                body > main > section#companies-show-contact > table > tbody > tr > td.companies-contact-category {
+                    min-width: 100px;
+                }
+                body > main > section#companies-show-contact > table > thead > tr > th.companies-contact-name,
+                body > main > section#companies-show-contact > table > tbody > tr > td.companies-contact-name {
+                    min-width: 100px;
+                }
+                body > main > section#companies-show-contact > table > thead > tr > th.companies-contact-type,
+                body > main > section#companies-show-contact > table > tbody > tr > td.companies-contact-type {
+                    min-width: 75px;
+                }
+                body > main > section#companies-show-contact > table > thead > tr > th.companies-contact-value,
+                body > main > section#companies-show-contact > table > tbody > tr > td.companies-contact-value {
+                    min-width: 250px;
+                }
+                body > main > section#companies-show-contact > table > thead > tr > th.companies-contact-description,
+                body > main > section#companies-show-contact > table > tbody > tr > td.companies-contact-description {
+                    min-width: 100px;
+                }
+
+            /*  companies-show-product */
+                body > main > section#companies-show-product > table > thead > tr > th.companies-product-product_name,
+                body > main > section#companies-show-product > table > tbody > tr > td.companies-product-product_name {
+                    min-width: 150px;
+                }
+                body > main > section#companies-show-product > table > thead > tr > th.companies-product-original_name,
+                body > main > section#companies-show-product > table > tbody > tr > td.companies-product-original_name {
+                    min-width: 150px;
+                }
+                body > main > section#companies-show-product > table > thead > tr > th.companies-product-status,
+                body > main > section#companies-show-product > table > tbody > tr > td.companies-product-status {
+                    min-width: 50px;
+                }
+                body > main > section#companies-show-product > table > thead > tr > th.companies-product-price,
+                body > main > section#companies-show-product > table > tbody > tr > td.companies-product-price {
+                    min-width: 75px;
+                }
+                body > main > section#companies-show-product > table > thead > tr > th.companies-product-description,
+                body > main > section#companies-show-product > table > tbody > tr > td.companies-product-description {
+                    min-width: 100px;
+                }
+
+            /*  companies-product */
+            /*  companies-product-create */
+                /*  companies-product-create-price */
+                    body > main > form#companies-product-create-price > table > tbody > tr > th,
+                    body > main > form#companies-product-create-price > table > tbody > tr > td {
+                        text-align: center;
+                    }
+                    body > main > form#companies-product-create-price > table > tbody > tr > td > input[type=number] {
+                        width: 70px;
+                        text-align: right;
+                    }
+
+                /*  companies-product-create-narrow_down */
+                    body > main > form#companies-product-create-narrow_down > table > tbody > tr > th,
+                    body > main > form#companies-product-create-narrow_down > table > tbody > tr > td {
+                        text-align: center;
+                    }
+                    body > main > form#companies-product-create-narrow_down > table > tbody > tr > td > input#narrow_down-length_min,
+                    body > main > form#companies-product-create-narrow_down > table > tbody > tr > td > input#narrow_down-length_max,
+                    body > main > form#companies-product-create-narrow_down > table > tbody > tr > td > input#narrow_down-width_min,
+                    body > main > form#companies-product-create-narrow_down > table > tbody > tr > td > input#narrow_down-width_max,
+                    body > main > form#companies-product-create-narrow_down > table > tbody > tr > td > input#narrow_down-height_min,
+                    body > main > form#companies-product-create-narrow_down > table > tbody > tr > td > input#narrow_down-height_max {
+                        width: 100px;
+                    }
+            /* company_users */
+                /* company_users-index */
+                /* company_users-query */
+                /* company_users-create */
+                    body > main > section#company_users-query > form > table ,
+                    body > main > section#company_users-index > form > table ,
+                    body > main > section#company_users-create > form > table {
+                        margin: 0 auto;
+                    }
+                    body > main > section#company_users-query > form > table > * > tr > .company_users-query-name ,
+                    body > main > section#company_users-index > form > table > * > tr > .company_users-index-name ,
+                    body > main > section#company_users-create > form > table > * > tr > .company_users-create-name {
+                        width: 200px;
+                    }
+                    body > main > section#company_users-query > form > table > * > tr > .company_users-query-company_name ,
+                    body > main > section#company_users-index > form > table > * > tr > .company_users-index-company_name ,
+                    body > main > section#company_users-create > form > table > * > tr > .company_users-create-company_name {
+                        width: 200px;
+                    }
+                    body > main > section#company_users-query > form > table > * > tr > td,
+                    body > main > section#company_users-create > form > table > * > tr > td {
+                        text-align: center;
+                    }
+                    body > main > section#company_users-query > form > table > * > tr > td > input,
+                    body > main > section#company_users-create > form > table > * > tr > td > input {
+                        width: 180px;
+                    }
+
+                    body > main > section#company_users-query > form > table > * > tr > .company_users-query-role ,
+                    body > main > section#company_users-index > form > table > * > tr > .company_users-index-role ,
+                    body > main > section#company_users-create > form > table > * > tr > .company_users-create-role {
+                        text-align: center;
+                        width: 100px;
+                    }
+                    body > main > section#company_users-query > form > table > * > tr > .company_users-query-status ,
+                    body > main > section#company_users-index > form > table > * > tr > .company_users-index-status ,
+                    body > main > section#company_users-create > form > table > * > tr > .company_users-create-status {
+                        text-align: center;
+                        width: 100px;
+                    }
+                    body > main > section#company_users-query > form > table > tfoot > tr > td.company_users-query-button ,
+                    body > main > section#company_users-index > form > table > tfoot > tr > td.company_users-index-button ,
+                    body > main > section#company_users-create > form > table > tfoot > tr > td.company_users-create-button {
+                        text-align: center;
+                    }
+                    body > main > section#company_users-index > form > nav.paginate > ul {
+                        justify-content: center;
+                    }
+
+    /* orders */
+        /* orders-index */
+            body > main > section#orders-query > form > table,
+            body > main > section#orders-index > form > table {
+                margin: auto;
+            }
+            body > main > section#orders-query > form > table > tbody > tr > td > ul {
+                display: flex;
+            }
+            body > main > section#orders-query > form > table > tbody > tr > td > ul > li {
+                margin: 0 5px;
+            }
+            body > main > section#orders-index > form > table > * > tr > td > span ,
+            body > main > section#orders-index > form > table > * > tr > td > input ,
+            body > main > section#orders-index > form > table > * > tr > td > select ,
+            body > main > section#orders-index > form > table > * > tr > td > textarea {
+                display: block;
+            }
+            body > main > section#orders-index > form > table > * > tr > .orders-index-created_at {
+                width: 80px;
+            }
+            body > main > section#orders-index > form > table > * > tr > .orders-index-delivery_date {
+                width: 50px;
+            }
+            body > main > section#orders-index > form > table > * > tr > .orders-index-company_name {
+                width: 175px;
+            }
+            body > main > section#orders-index > form > table > * > tr > .orders-index-product_name {
+                width: 200px;
+            }
+            body > main > section#orders-index > form > table > * > tr > .orders-index-explanation {
+                width: 150px;
+            }
+            body > main > section#orders-index > form > table > * > tr > .orders-index-explanation > textarea {
+                height: 5em;
+                width: inherit;
+            }
+            body > main > section#orders-index > form > table > * > tr > .orders-index-quantity ,
+            body > main > section#orders-index > form > table > * > tr > .orders-index-price    {
+                text-align: right;
+                width: 75px;
+            }
+            body > main > section#orders-index > form > table > thead > tr > th.orders-index-quantity ,
+            body > main > section#orders-index > form > table > thead > tr > th.orders-index-price    {
+                text-align: center;
+            }
+            body > main > section#orders-index > form > table > * > tr > .orders-index-quantity > input,
+            body > main > section#orders-index > form > table > * > tr > .orders-index-price >input {
+                text-align: right;
+                width: 70px;
+            }
+            body > main > section#orders-index > form > table > * > tr > .orders-index-format ,
+            body > main > section#orders-index > form > table > * > tr > .orders-index-format > select ,
+            body > main > section#orders-index > form > table > * > tr > .orders-index-status ,
+            body > main > section#orders-index > form > table > * > tr > .orders-index-status > select {
+                    text-align: center;
+                width: 75px;
+            }
+

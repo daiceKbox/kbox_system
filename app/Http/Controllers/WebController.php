@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 use function PHPSTORM_META\map;
@@ -11,11 +12,12 @@ class WebController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $user   =   $request->user();
         $menus  =   [
-            ["companies","得意先一覧","得意先一覧から、会社情報・受注・過去の注文履歴が確認できます"],
-            ["users","ユーザー一覧","ユーザー一覧から、ユーザー情報・権限の確認・追加登録ができます"],
+            ["companies","得意先一覧","会社情報の確認・受注の登録・過去の注文履歴の確認"],
+            ["users","ユーザー一覧","ユーザー情報の確認・権限の確認・追加登録"],
         ];
         $menus  =   collect($menus)->map(fn($menu)=>[
             "name"          =>  $menu[0],
@@ -24,9 +26,10 @@ class WebController extends Controller
         ])->all();
 
         $data   =   [
+            "user"  =>  $user,
             "menus" =>  $menus,
         ];
-        return view("home",$data);
+        return view($user->role ?? "user" ,$data);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\UserCompany;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -12,7 +13,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::all();
+        $users  =   User::all();
+        $data   =   [
+            "users" =>  $users,
+        ];
+        return view("users.index",$data);
     }
 
     /**

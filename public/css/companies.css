@@ -1,0 +1,74 @@
+table tr > * > dl {
+    display: flex;
+}
+
+/* companies-query */
+
+table#companies-index-query-table{
+    margin: 0 auto;
+}
+table#companies-index-query-table > tbody > tr > td{
+    text-align: center;
+}
+table#companies-index-query-table > tbody > tr > td > button:hover{
+    outline: 2px solid #000000;
+    outline-offset: -2px; /* 内側に2px入れることで枠線っぽく見せる */
+    font-weight: bold;
+}
+table#companies-index-query-table input#companies-index-query-input {
+    width: 100%;
+    height: 100%;
+    display: block;          /* 余白の原因になるインライン要素の隙間を消す */
+    box-sizing: border-box; /* borderやpaddingを含めて100%にする */
+    outline: none;           /* フォーカス時の枠線調整（必要に応じて） */
+    padding: 6px 10px;       /* 入力文字の打ちやすさのための内側余白 */
+}
+
+
+/* companies-index, companies-show */
+
+table#companies-index-table,
+table#companies-show-table {
+    margin: 0 auto;
+}
+
+table#companies-index-table > * > tr,
+table#companies-show-table > * > tr {
+
+    border: 2px #000000 solid;
+}
+table#companies-index-table > * > tr > *,
+table#companies-show-table > * > tr > * {
+    border: 1px #000000 solid;
+}
+
+
+table#companies-index-table > * > tr > .companies-index-table-name,
+table#companies-show-table > * > tr > .companies-show-table-name {
+    width: 320px;
+}
+table#companies-index-table > * > tr > .companies-index-table-address,
+table#companies-show-table > * > tr > .companies-show-table-address {
+    width: 350px;
+}
+table#companies-index-table > * > tr > .companies-index-table-action,
+table#companies-show-table > * > tr > .companies-show-table-action {
+    width: 50px;
+}
+
+/** company_products */
+
+table#companies-company_products-table {
+    margin: 0 auto;
+}
+
+table#companies-company_products-table > tbody > tr > td > input.companies-company_products-table-price-input,
+table#companies-company_products-table > tbody > tr > td > input.companies-company_products-table-quantity-input {
+    width: 100px;
+    text-align: right;
+}
+table#companies-company_products-table > tbody > tr > td > input.companies-company_products-table-order_number-input,
+table#companies-company_products-table > tbody > tr > td > input.companies-company_products-table-memo-input {
+    width: 100px;
+}
+
