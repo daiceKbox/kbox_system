@@ -54,13 +54,29 @@ class CompanyController extends Controller
                         'deadline'      =>  data_get($item, "deadline"),
                         'order_number'  =>  (string) data_get($item, "order_number"),
                         'memo'          =>  (string) data_get($item, "memo"),
+                        'delivery_type' =>  (string) data_get($item, "delivery_type"),
+                        'voucher'       =>  [
+                            'type'  =>  (string) data_get($item, "voucher_type"),
+                            'input' =>  (string) data_get($item, "voucher_input"),
+                        ],
+                        'manufacture'   =>  [
+                            'cut'           =>  (string) data_get($item, "manufacture_cut"),
+                            'fabrication'   =>  (string) data_get($item, "manufacture_fabrication"),
+                        ],
                         "person"        =>  (string) data_get($user, "name"),
-                        "status"        =>  (string) "ordered",
+                        "status"        =>  [
+                            "semiproduct"   =>  "pending",
+                            "product"       =>  "pending",
+                            "voucher"       =>  "pending",
+                            "delivery"      =>  "pending",
+                            "sales"         =>  "pending",
+                        ],
                     ];
                 }
             }
         }
         $this->sheet_service->append_rows("kbox_order","orders",$orders);
+        return response()->json($orders, 200);
         return redirect()->route("companies.index");
     }
 

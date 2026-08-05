@@ -1,0 +1,19 @@
+table tr > * > dl {
+    display: flex;
+}
+table tr > * > dl > * {
+    margin: 0 3px;
+}
+
+table tr {
+    border: 1px #000000 solid;
+}
+
+#orders-index-table {
+    margin: 0 auto;
+}
+
+#orders-index-table > tbody > tr > td.orders-index-table-quantity,
+#orders-index-table > tbody > tr > td.orders-index-table-price {
+    text-align: right;
+}

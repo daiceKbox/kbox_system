@@ -17,6 +17,7 @@ class WebController extends Controller
         $user   =   $request->user();
         $menus  =   [
             ["companies","得意先一覧","会社情報の確認・受注の登録・過去の注文履歴の確認"],
+            ["orders","受注一覧","受注情報・数量・製造状況の確認・変更"],
             ["users","ユーザー一覧","ユーザー情報の確認・権限の確認・追加登録"],
         ];
         $menus  =   collect($menus)->map(fn($menu)=>[

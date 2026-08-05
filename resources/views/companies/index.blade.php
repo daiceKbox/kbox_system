@@ -1,11 +1,8 @@
 <x-body.frame.admin>
     <x-slot name="name">companies</x-slot>
-    <x-slot name="title">得意先一覧</x-slot>
-    <x-slot name="head">
-        <link rel="stylesheet" href="{{url("/css/companies.css")}}">
-    </x-slot>
-    <x-slot name="header">
-    </x-slot>
+    <x-slot name="title">得意先</x-slot>
+    <x-slot name="head"></x-slot>
+    <x-slot name="header"></x-slot>
     <x-slot name="page_transition_list"></x-slot>
     <x-slot name="main">
         <section id="companies-index-query">

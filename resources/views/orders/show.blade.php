@@ -1,8 +1,9 @@
 <x-body.frame.admin>
-    <x-slot name="name">companies</x-slot>
-    <x-slot name="title">得意先</x-slot>
+    <x-slot name="name">orders</x-slot>
+    <x-slot name="title">受注</x-slot>
     <x-slot name="head"></x-slot>
-    <x-slot name="header"></x-slot>
+    <x-slot name="header">
+    </x-slot>
     <x-slot name="page_transition_list"></x-slot>
     <x-slot name="main">
         <section id="companies-show">
@@ -11,7 +12,6 @@
                     <tr>
                         <th class="companies-show-table-name">会社名</th>
                         <th class="companies-show-table-address">会社情報</th>
-                        {{-- <th class="companies-show-table-action">操作</th> --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -53,7 +53,6 @@
                             <th class="companies-company_products-table-name">製品名</th>
                             <th class="companies-company_products-table-pirce">単価</th>
                             <th class="companies-company_products-table-quantity">数量</th>
-                            <th class="companies-company_products-table-basic_quantity">参照</th>
                             <th class="companies-company_products-table-deadline">納期</th>
                             <th class="companies-company_products-table-order_number">注番</th>
                             <th class="companies-company_products-table-memo">メモ</th>
@@ -87,31 +86,6 @@
                                     name="{{ $base_name }}[format]"
                                     value="{{ data_get($company_product, "format") }}"
                                 >
-                                <input
-                                    type="hidden"
-                                    name="{{ $base_name }}[delivery_type]"
-                                    value="{{ data_get($company_product, "info.delivery_type") }}"
-                                >
-                                <input
-                                    type="hidden"
-                                    name="{{ $base_name }}[voucher_type]"
-                                    value="{{ data_get($company_product, "info.voucher.type") }}"
-                                >
-                                <input
-                                    type="hidden"
-                                    name="{{ $base_name }}[voucher_input]"
-                                    value="{{ data_get($company_product, "info.voucher.input") }}"
-                                >
-                                <input
-                                    type="hidden"
-                                    name="{{ $base_name }}[manufacture_cut]"
-                                    value="{{ data_get($company_product, "manufacture.cut") }}"
-                                >
-                                <input
-                                    type="hidden"
-                                    name="{{ $base_name }}[manufacture_fabrication]"
-                                    value="{{ data_get($company_product, "manufacture.fabrication") }}"
-                                >
                             </td>
                             <td class="companies-company_products-table-pirce">
                                 <input
@@ -130,7 +104,6 @@
                                     step="{{ data_get($company_product, "lot", 'any') }}"
                                 >
                             </td>
-                            <td class="companies-company_products-table-basic_quantity">{{ data_get($company_product, "basic_quantity") }}</td>
                             <td class="companies-company_products-table-deadline">
                                 <input
                                     class="companies-company_products-table-deadline-input"
@@ -169,7 +142,6 @@
                                     onchange="apply_bulk_update(this);"
                                 >
                             </td>
-                            <td class="companies-company_products-table-basic_quantity"></td>
                             <td class="companies-company_products-table-deadline">
                                 <input
                                     class="companies-company_products-table-deadline-input"

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\GoogleSheetsController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
@@ -27,6 +28,9 @@ Route::middleware(["auth",'role:admin'])->group(function(){
         Route::get('/', [CompanyController::class, "index"])->name("companies.index");
         Route::get('{company_code}', [CompanyController::class, "show"])->name("companies.show");
         Route::post('{company_code?}', [CompanyController::class, "store"])->name("companies.store");
+    });
+    Route::prefix("orders")->group(function () {
+        Route::get('/', [OrderController::class, "index"])->name("orders.index");
     });
 });
 /** クライアント用 Route */
