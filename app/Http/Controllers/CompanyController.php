@@ -78,19 +78,19 @@ class CompanyController extends Controller
                 if(!empty($quantity)){
                     $orders[]  =   [
                         "date"          =>  now()->format("Y/m/d"),
-                        'company_code'  =>  $company_code,
-                        'company_name'  =>  $company_name,
-                        'product_code'  =>  $product_code,
-                        "product_name"  =>  data_get($item, "product_name"),
-                        "custom_name"   =>  data_get($item, "custom_name"),
-                        "format"        =>  data_get($item, "format"),
+                        'company_code'  =>  (string) $company_code,
+                        'company_name'  =>  (string) $company_name,
+                        'product_code'  =>  (string) $product_code,
+                        "product_name"  =>  (string) data_get($item, "product_name"),
+                        "custom_name"   =>  (string) data_get($item, "custom_name"),
+                        "format"        =>  (string) data_get($item, "format"),
                         "price"         =>  data_get($item, "price"),
                         'quantity'      =>  $quantity,
                         'deadline'      =>  data_get($item, "deadline"),
-                        'order_number'  =>  data_get($item, "order_number"),
-                        'memo'          =>  data_get($item, "memo"),
-                        "person"        =>  data_get($user, "name"),
-                        "status"        =>  "active",
+                        'order_number'  =>  (string) data_get($item, "order_number"),
+                        'memo'          =>  (string) data_get($item, "memo"),
+                        "person"        =>  (string) data_get($user, "name"),
+                        "status"        =>  (string) "active",
                     ];
                 }
             }
