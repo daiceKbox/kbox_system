@@ -5,6 +5,7 @@ namespace App\Libraries;
 use Google\Client;
 use Google\Service\Sheets;
 use Exception;
+use Google_Service_Sheets_ValueRange;
 use Illuminate\Support\Facades\Log;
 
 class GoogleSheetService
@@ -29,7 +30,7 @@ class GoogleSheetService
         $credentialsPath = storage_path('app/private/kbox-system-google-credentials.json');
         if (file_exists($credentialsPath)) {
             $this->client->setAuthConfig($credentialsPath);
-            $this->client->addScope(Sheets::SPREADSHEETS_READONLY);
+            $this->client->addScope(Sheets::SPREADSHEETS);
         }
         // ② パブリック公開されているシートを API キーで取得する場合
         elseif (env('GOOGLE_SHEETS_API_KEY')) {
@@ -42,7 +43,7 @@ class GoogleSheetService
     }
 
 
-/**
+    /**
      * キー名（またはID直接）からスプレッドシートIDを解決する
      */
     protected function get_shpreadsheet_id(string $key_or_id): string
@@ -62,8 +63,8 @@ class GoogleSheetService
     public function get_all(string $spreadsheet_key_or_id, string $range): array
     {
         try {
-            $spreadsheetId  = $this->get_shpreadsheet_id($spreadsheet_key_or_id);
-            $response       = $this->service->spreadsheets_values->get($spreadsheetId, $range);
+            $spreadsheet_id  = $this->get_shpreadsheet_id($spreadsheet_key_or_id);
+            $response       = $this->service->spreadsheets_values->get($spreadsheet_id, $range);
             $raw_values     = $response->getValues() ?? [];
             $formatted_data = $this->format_rows_with_header($raw_values);
 
@@ -97,8 +98,8 @@ class GoogleSheetService
     public function get_first(string $spreadsheet_key_or_id, string $range, array $conditions): ?array
     {
         // API呼び出し（get_allを通さず生の2次元配列を取得）
-            $spreadsheetId = $this->get_shpreadsheet_id($spreadsheet_key_or_id);
-            $response      = $this->service->spreadsheets_values->get($spreadsheetId, $range);
+            $spreadsheet_id = $this->get_shpreadsheet_id($spreadsheet_key_or_id);
+            $response      = $this->service->spreadsheets_values->get($spreadsheet_id, $range);
             $raw_values    = $response->getValues() ?? [];
 
             if (empty($raw_values) || count($raw_values) < 2) {
@@ -169,8 +170,8 @@ class GoogleSheetService
     public function get_where(string $spreadsheet_key_or_id, string $range, array $conditions): array
     {
         // API呼び出し
-        $spreadsheetId = $this->get_shpreadsheet_id($spreadsheet_key_or_id);
-        $response      = $this->service->spreadsheets_values->get($spreadsheetId, $range);
+        $spreadsheet_id = $this->get_shpreadsheet_id($spreadsheet_key_or_id);
+        $response      = $this->service->spreadsheets_values->get($spreadsheet_id, $range);
         $raw_values    = $response->getValues() ?? [];
 
         if (empty($raw_values) || count($raw_values) < 2) {
@@ -218,7 +219,6 @@ class GoogleSheetService
                     $value = $row[$col_index] ?? null;
                     data_set($result, $key, $value);
                 }
-
                 $results[] = $result;
             }
         }
@@ -275,5 +275,75 @@ class GoogleSheetService
             $result[] = $mapped_row;
         }
         return $result;
+    }
+
+    /**
+     * データをシート最上行（1行目）のヘッダー順に合わせて並び替え、シートの末尾に追加する
+     *
+     * @param string $spreadsheet_key_or_id スプレッドシートID
+     * @param string $sheet_name シート名（例: "シート1" や "products"）
+     * @param array $data 追加するデータ（1件の連想配列、または連想配列の多次元配列）
+     * @return \Google\Service\Sheets\AppendValuesResponse
+     */
+    public function append_rows(string $spreadsheet_key_or_id, string $sheet_name, array $data)
+    {
+        $spreadsheet_id = $this->get_shpreadsheet_id($spreadsheet_key_or_id);
+
+        // 1. シートの1行目（ヘッダー）のみを取得
+        $range      = $sheet_name."!1:1";
+        $response   = $this->service->spreadsheets_values->get($spreadsheet_id, $range);
+        $headers    = $response->getValues()[0] ?? [];
+
+        if (empty($headers)) {
+            throw new \Exception("指定されたシート（{$sheet_name}）の1行目にヘッダーが見つかりません。");
+        }
+        // 2. 渡された配列のキーを 0 始まりにリセット
+        $data = array_values($data);
+
+        // 単一の連想配列（["code" => "0101", ...]) が渡された場合は2次元配列に統一
+        if (!isset($data[0]) || !is_array($data[0])) {
+            $data = [$data];
+        }
+
+        // 3. ヘッダーのキー順に合わせてデータを並び替え（存在しないキーは null を補填）
+        $rows_to_append = [];
+        foreach ($data as $row_item) {
+            $row_array = [];
+            foreach ($headers as $header) {
+                // 改行除去・トリムして取得時と同じ表現のキーに揃える
+                $key    = preg_replace('/\r\n|\r|\n/', '.', trim((string)$header));
+
+                // Laravelの data_get を使うことで "structure.type" 等のドット記法・階層データにも対応
+                $value  = data_get($row_item, $key, "");
+                // null または 未設定 の場合は空文字に置換（null のままだと JSON 化で連想配列化する原因になる）
+                if (is_null($value)) {
+                    $value = '';
+                } elseif (is_array($value) || is_object($value)) {
+                    // 配列やオブジェクトが返ってきた場合は JSON 文字列化
+                    $value = json_encode($value, JSON_UNESCAPED_UNICODE);
+                }
+                $row_array[] = $value;
+            }
+            // 確実にかぎ括弧［0, 1, 2...］の数値インデックス配列に変換して追加
+            $rows_to_append[] = array_values($row_array);
+        }
+
+        // 4. Google_Service_Sheets_ValueRange の作成
+        $body = new Google_Service_Sheets_ValueRange();
+
+        // 外側の配列も完全な数値インデックスに保証してセット
+        $body->setValues(array_values($rows_to_append));
+
+        // 5. シート末尾に追加（USER_ENTERED で入力形式を維持）
+        $params = [
+            'valueInputOption' => 'USER_ENTERED',
+        ];
+
+        return $this->service->spreadsheets_values->append(
+            $spreadsheet_id,
+            $sheet_name,
+            $body,
+            $params
+        );
     }
 }

@@ -36,6 +36,8 @@ dt {
 
 input, select, textarea {
     border: 1px solid #000000;
+    padding: 1px 3px; /* 入力文字の打ちやすさのための内側余白 */
+
 }
 
 textarea {

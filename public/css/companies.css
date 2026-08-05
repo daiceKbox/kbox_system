@@ -1,6 +1,9 @@
 table tr > * > dl {
     display: flex;
 }
+table tr > * > dl > * {
+    margin: 0 3px;
+}
 
 /* companies-query */
 
@@ -62,13 +65,18 @@ table#companies-company_products-table {
     margin: 0 auto;
 }
 
-table#companies-company_products-table > tbody > tr > td > input.companies-company_products-table-price-input,
-table#companies-company_products-table > tbody > tr > td > input.companies-company_products-table-quantity-input {
+table#companies-company_products-table > * > tr > td > input.companies-company_products-table-price-input,
+table#companies-company_products-table > * > tr > td > input.companies-company_products-table-quantity-input {
     width: 100px;
     text-align: right;
 }
-table#companies-company_products-table > tbody > tr > td > input.companies-company_products-table-order_number-input,
-table#companies-company_products-table > tbody > tr > td > input.companies-company_products-table-memo-input {
+table#companies-company_products-table > * > tr > td > input.companies-company_products-table-order_number-input,
+table#companies-company_products-table > * > tr > td > input.companies-company_products-table-memo-input {
     width: 100px;
 }
-
+table#companies-company_products-table > tfoot > tr {
+    background-color: #999999;
+}
+table#companies-company_products-table > tfoot > tr > td.companies-company_products-table-title {
+    text-align: center;
+}

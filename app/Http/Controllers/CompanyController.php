@@ -67,32 +67,36 @@ class CompanyController extends Controller
      */
     public function update(Request $request, string $code)
     {
+        $user               =   $request->user();
         $company_code       =   $request->input("company_code", []);
         $company_name       =   $request->input("company_name", null);
         $company_products   =   $request->input("company_products", null);
         $orders             =   [];
         foreach($company_products as $company_code => $products){
             foreach($products as $product_code => $item){
-                $product_name   =   data_get($item, "product_name");
-                $custom_name    =   data_get($item, "custom_name");
-                $price          =   data_get($item, "price");
                 $quantity       =   data_get($item, "quantity");
-                $date           =   data_get($item, "date");
                 if(!empty($quantity)){
                     $orders[]  =   [
+                        "date"          =>  now()->format("Y/m/d"),
                         'company_code'  =>  $company_code,
                         'company_name'  =>  $company_name,
                         'product_code'  =>  $product_code,
-                        "product_name"  =>  $product_name,
-                        "custom_name"   =>  $custom_name,
-                        'price'         =>  $price,
+                        "product_name"  =>  data_get($item, "product_name"),
+                        "custom_name"   =>  data_get($item, "custom_name"),
+                        "format"        =>  data_get($item, "format"),
+                        "price"         =>  data_get($item, "price"),
                         'quantity'      =>  $quantity,
-                        'date'          =>  $date,
+                        'deadline'      =>  data_get($item, "deadline"),
+                        'order_number'  =>  data_get($item, "order_number"),
+                        'memo'          =>  data_get($item, "memo"),
+                        "person"        =>  data_get($user, "name"),
+                        "status"        =>  "active",
                     ];
                 }
             }
         }
-        return response()->json($orders, 200);
+        $this->sheet_service->append_rows("kbox_order","orders",$orders);
+        return redirect()->route("companies.index");
     }
 
     /**
