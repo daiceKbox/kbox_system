@@ -26,8 +26,7 @@ Route::middleware(["auth",'role:admin'])->group(function(){
     Route::prefix("companies")->group(function () {
         Route::get('/', [CompanyController::class, "index"])->name("companies.index");
         Route::get('{company_code}', [CompanyController::class, "show"])->name("companies.show");
-        Route::post('/', [CompanyController::class, "store"])->name("companies.store");
-        Route::post('{company_code?}', [CompanyController::class, "update"])->name("companies.update");
+        Route::post('{company_code?}', [CompanyController::class, "store"])->name("companies.store");
     });
 });
 /** クライアント用 Route */
