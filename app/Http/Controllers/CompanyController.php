@@ -32,7 +32,36 @@ class CompanyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user               =   $request->user();
+        $company_code       =   $request->input("company_code", []);
+        $company_name       =   $request->input("company_name", null);
+        $company_products   =   $request->input("company_products", null);
+        $orders             =   [];
+        foreach($company_products as $company_code => $products){
+            foreach($products as $product_code => $item){
+                $quantity       =   data_get($item, "quantity");
+                if(!empty($quantity)){
+                    $orders[]  =   [
+                        "date"          =>  now()->format("Y/m/d"),
+                        'company_code'  =>  (string) $company_code,
+                        'company_name'  =>  (string) $company_name,
+                        'product_code'  =>  (string) $product_code,
+                        "product_name"  =>  (string) data_get($item, "product_name"),
+                        "custom_name"   =>  (string) data_get($item, "custom_name"),
+                        "format"        =>  (string) data_get($item, "format"),
+                        "price"         =>  data_get($item, "price"),
+                        'quantity'      =>  $quantity,
+                        'deadline'      =>  data_get($item, "deadline"),
+                        'order_number'  =>  (string) data_get($item, "order_number"),
+                        'memo'          =>  (string) data_get($item, "memo"),
+                        "person"        =>  (string) data_get($user, "name"),
+                        "status"        =>  (string) "ordered",
+                    ];
+                }
+            }
+        }
+        $this->sheet_service->append_rows("kbox_order","orders",$orders);
+        return redirect()->route("companies.index");
     }
 
     /**

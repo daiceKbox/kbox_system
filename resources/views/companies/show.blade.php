@@ -44,7 +44,7 @@
             </table>
         </section>
         <section id="companies-company_products">
-            <form action="{{ url("/companies/".data_get($company,"code")) }}" method="POST">
+            <form id="companies-company_products-form" action="{{ route("companies.store") }}" method="POST">
                 @csrf
                 @method("post")
                 <button type="submit">確認</button>
@@ -183,6 +183,16 @@
     </x-slot>
     <x-slot name="script">
         <script>
+            document.getElementById('companies-company_products-form').addEventListener('submit', function(event) {
+                // 確認ダイアログを表示
+                const is_confirmed = confirm('この内容で注文を送信してもよろしいですか？');
+
+                // 「キャンセル」が押された場合はフォーム送信を停止
+                if (!is_confirmed) {
+                    event.preventDefault();
+                }
+            });
+
             function apply_bulk_update(node){
                 const value         =   node.value;
                 const class_name    =   node.className;
