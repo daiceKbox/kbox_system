@@ -1,0 +1,40 @@
+table tr > * > dl {
+    display: flex;
+}
+table tr > * > dl > * {
+    margin: 0 3px;
+}
+
+ul {
+    margin: 0 auto;
+}
+
+ul > li {
+    margin-bottom: 30px;
+}
+ul > li:last-child {
+    margin-bottom: unset;
+}
+
+table tr {
+    border: 1px #000000 solid;
+}
+
+table.vouchers-index-table {
+    width: 600px;
+}
+table.vouchers-index-table > * > tr > * {
+    min-height: 25px;
+    height: 25px;
+}
+table.vouchers-index-table > * > tr > td.vouchers-index-table-custom_name {
+    width: 400px;
+}
+
+table.vouchers-index-table > * > tr > td.vouchers-index-table-quantity,
+table.vouchers-index-table > * > tr > td.vouchers-index-table-price,
+table.vouchers-index-table > * > tr > td.vouchers-index-table-total {
+    width: 50px;
+    text-align: right;
+}
+

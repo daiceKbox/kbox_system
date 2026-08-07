@@ -9,11 +9,32 @@ table tr {
     border: 1px #000000 solid;
 }
 
-#orders-index-table {
+table#orders-index-query-table,
+table#orders-index-total-table,
+table#orders-index-table {
     margin: 0 auto;
 }
+table#orders-index-query-table > * > tr > td {
+    text-align: center;
+}
 
-#orders-index-table > tbody > tr > td.orders-index-table-quantity,
-#orders-index-table > tbody > tr > td.orders-index-table-price {
+
+table#orders-index-table > tbody > tr > td > input {
+    border: none;
+}
+
+table#orders-index-table > tbody > tr > td.orders-index-table-quantity > input.orders-index-table-quantity-input ,
+table#orders-index-table > tbody > tr > td.orders-index-table-price > input.orders-index-table-price-input  {
     text-align: right;
+    width: 75px;
+}
+table#orders-index-table > tbody > tr > td.orders-index-table-deadline > input.orders-index-table-deadline-input  {
+    width: 125px;
+}
+table#orders-index-table > tbody > tr > td.orders-index-table-voucher {
+    text-align: center;
+}
+
+table#orders-index-table > tbody > tr > td input.orders-index-table-input-changed {
+    background-color: #FFFF00;
 }

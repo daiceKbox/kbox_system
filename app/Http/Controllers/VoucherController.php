@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Libraries\GoogleSheetService;
 use Illuminate\Http\Request;
 
-class OrderController extends Controller
+class VoucherController extends Controller
 {
     protected GoogleSheetService $sheet_service;
 
@@ -14,16 +14,25 @@ class OrderController extends Controller
         $this->sheet_service    =   $sheet_service;
     }
 
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $orders =   $this->sheet_service->get_all("kbox_order", "orders");
-        $data   =   [
-            "orders" =>  $orders["data"],
+        $deadline   =   $request->query("deadline", now()->format("Y-m-d"));
+        $orders     =   $this->sheet_service->get_where("kbox_order","orders",["deadline" => str_replace('-', '/', $deadline)]);
+        $orders     =   collect($orders)->sortBy('company_code')->groupBy(function ($order) {
+            $company_code   =   data_get($order, 'company_code', '');
+            $voucher_type   =   data_get($order, 'voucher.type', ''); // まとめたいキー
+            return "{$company_code}_{$voucher_type}";
+        });
+        $data       =   [
+            "orders"    =>  $orders,
+            "deadline"  =>  $deadline,
         ];
-        return view("orders.index", $data);
+        // return $orders;
+        return view("voucher.index", $data);
     }
 
     /**
@@ -39,27 +48,8 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $user   =   $request->user();
-        $orders =   $request->input("orders", []);
-        foreach($orders as $id => $array){
-            foreach($array as $key => $value){
-                $conditions =   [
-                    "id"    =>  $id,
-                ];
-                $this->sheet_service->update_cell("kbox_order", "orders", $conditions, $key, $value);
-            }
-        }
-        $data   =   [
-            "orders"    =>  $orders,
-        ];
-        // return response()->json($data, 200);
-        return redirect()->route("orders.index");
+        //
     }
-
-    public function voucher(){
-
-    }
-
 
     /**
      * Display the specified resource.
@@ -92,5 +82,4 @@ class OrderController extends Controller
     {
         //
     }
-
 }

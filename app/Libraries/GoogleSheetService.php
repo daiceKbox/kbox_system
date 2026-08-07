@@ -346,4 +346,76 @@ class GoogleSheetService
             $params
         );
     }
+
+/**
+     * 条件に一致する行を検索し、指定したヘッダー（列）のセルに値を書き込む
+     *
+     * @param string $spreadsheet_key_or_id スプレッドシートのIDまたはキー
+     * @param string $sheet_name シート名（例: 'Sheet1'）
+     * @param array $conditions 検索条件（例: ['id' => 123]）
+     * @param string $header 書き換えたい列のヘッダー名（例: 'ステータス'）
+     * @param mixed $value 書き込む値
+     */
+    public function update_cell(string $spreadsheet_key_or_id, string $sheet_name, array $conditions, $header, $value)
+    {
+        // 1. get_first を使って条件に一致する最初の行を特定する（row_index も一緒に取れる！）
+            $row = $this->get_first($spreadsheet_key_or_id, $sheet_name, $conditions);
+
+            if (empty($row)) {
+                $cond_str = collect($conditions)->map(fn($v, $k) => "{$k} = {$v}")->implode(', ');
+                throw new \Exception("条件（{$cond_str}）に一致する行が見つかりませんでした。");
+            }
+
+            $target_row_index   =   $row['row_index'];
+
+        // 2. ヘッダー名から列のアルファベットを特定するために1行目を取得
+            $spreadsheet_id = $this->get_shpreadsheet_id($spreadsheet_key_or_id);
+            $response       = $this->service->spreadsheets_values->get($spreadsheet_id, "{$sheet_name}!1:1");
+            $headers        = $response->getValues()[0] ?? [];
+
+            $header_index   = array_search($header, array_map(fn($h) => preg_replace('/\r\n|\r|\n/', '.', trim((string)$h)), $headers), true);
+
+            if ($header_index === false) {
+                throw new \Exception("指定されたヘッダー（{$header}）が見つかりません。");
+            }
+
+            $column_letter  =   $this->index_to_column_letter($header_index);
+            $target_range   =   "{$sheet_name}!{$column_letter}{$target_row_index}";
+
+        // 3. 書き込む値の整形（1次元やスカラー値を2次元配列に）
+            if (!is_array($value)) {
+                $value = [[$value]];
+            } elseif (isset($value[0]) && !is_array($value[0])) {
+                $value = [$value];
+            }
+
+            $body = new Google_Service_Sheets_ValueRange();
+            $body->setValues($value);
+
+            $params = [
+                'valueInputOption' => 'USER_ENTERED',
+            ];
+
+            return $this->service->spreadsheets_values->update(
+                $spreadsheet_id,
+                $target_range,
+                $body,
+                $params
+            );
+    }
+
+    /**
+     * 列のインデックス（0始まり）を A1形式の列文字（A, B, C, ..., AA, AB...）に変換する
+     */
+    private function index_to_column_letter(int $index): string
+    {
+        $letter = '';
+        $index++;
+        while ($index > 0) {
+            $modulo = ($index - 1) % 26;
+            $letter = chr(65 + $modulo) . $letter;
+            $index  = (int)(($index - $modulo) / 26);
+        }
+        return $letter;
+    }
 }
